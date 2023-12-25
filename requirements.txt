@@ -1,0 +1,11 @@
+channels:
+ - conda-forge
+dependencies:
+ - numpy
+ - scipy
+ - pandas
+ - matplotlib
+pip:
+ - PySimpleGUI
+ - PySimpleGUIWeb
+ - seawater
