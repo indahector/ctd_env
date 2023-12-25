@@ -1,0 +1,24 @@
+[File]
+Path=C:\Users\Dell Pro\Desktop\CTD\Mini CTD\58934\20230919\V000019.TXT
+Downloading=2023/09/19 12:31:29
+Size=94.37kb
+Date=2023/09/19 12:31:54
+Downloaded=2023/09/19 12:31:59
+[Header]
+Instrument=Mini CTD
+Device_Series=Mini Series
+Serial_Number=58934
+Firmware=0660700P 20/11/2015 11:46
+Latitude=2.136139e+01
+Site_Info=2023_SAMAO_19SEP
+Sampling_Mode=M1
+Battery=External power = 0.2	Battery power = 1.2
+Pressure_Tare=9.290571e+00
+[Application]
+Name=Terminal.exe
+Title=Valeport Terminal X2
+Version=1.0.4.1259
+DateSeparator=/
+TimeSeparator=:
+ThousandSeparator=,
+DecimalSeparator=.
