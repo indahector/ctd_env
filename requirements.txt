@@ -1,6 +1,2 @@
-numpy
-scipy
-pandas
-matplotlib
 PySimpleGUIWeb
-seawater
+setuptools
