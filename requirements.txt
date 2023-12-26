@@ -1,3 +1,8 @@
 remi>=2021.3.2
 PySimpleGUIWeb
 setuptools
+numpy
+scipy
+pandas
+matplotlib
+seawater
