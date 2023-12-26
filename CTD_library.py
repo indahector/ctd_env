@@ -148,6 +148,13 @@ def plot_ctd(df):
     ax.legend()
     _ = ax.set_ylabel("Salinidad [psu]")
 
+    # Shrink current axis by 20%
+    box = ax.get_position()
+    ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+    
+    # Put a legend to the right of the current axis
+    ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
     fig1,ax = plt.subplots(figsize=(8,3))
     for g in df.Lances.unique():
         if g>=0:
@@ -156,6 +163,13 @@ def plot_ctd(df):
     ax.legend()
     _ = ax.set_ylabel(r"Density [kg m$^{-3}$]")
 
+    # Shrink current axis by 20%
+    box = ax.get_position()
+    ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+    
+    # Put a legend to the right of the current axis
+    ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    
     return fig0, fig1
 
 #-----------------------------------------------------------------------------
