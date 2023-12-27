@@ -131,8 +131,8 @@ def analyze_ctd(fName, plot=False):
     if plot:
         fig0, fig1 = plot_ctd(df)
         suffix = fName.split(".txt")[0].split("/")[-1]
-        fig0.savefig("Plots/Salinidad_{}.png".format(suffix))
-        fig1.savefig("Plots/Densidad_{}.png".format(suffix))
+        fig0.savefig("Salinidad_{}.png".format(suffix))
+        fig1.savefig("Densidad_{}.png".format(suffix))
         return df, fig0, fig1
     else:
         return df
