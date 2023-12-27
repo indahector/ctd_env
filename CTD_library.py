@@ -194,4 +194,4 @@ if __name__ == "__main__":
         elif event == "Submit":
             print("Analyzing {}".format(values["-IN-"]))
     
-        _ = analyze_ctd(values["-IN-"])
+        df0, metadata = read_ctd(values["-IN-"])
