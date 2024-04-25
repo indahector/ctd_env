@@ -1,11 +1,13 @@
 #!/Users/hector/anaconda3/envs/test-gui/bin/python
 
-# import PySimpleGUI as sg
+import PySimpleGUI as sg
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seawater
 import os.path
+import seawater
+import sys
+import os
 
 #-----------------------------------------------------------------------------
 def cluster_throw(df, threshold=0):
@@ -92,7 +94,7 @@ def calculate_ctd(df):
     return df  
 
 #-----------------------------------------------------------------------------
-def output_throws(df, metadata):
+def output_throws(df, metadata, verbose=True):
 
     template = []
     for k,v in metadata.items():
@@ -110,13 +112,16 @@ def output_throws(df, metadata):
         tmp = df[df.Lances==g]
         tmp = tmp.loc[:, ['time','Pressure','Temperature','Conductivity','Salinity','Density']]
         tmp_fName = fName + "_Lance{}.txt".format(g)
+        tmp_fName = os.path.join(Current_Path, tmp_fName)
         with open(tmp_fName, 'w') as fp:
+            if verbose:
+                print("{} written.".format(tmp_fName))
             fp.write(template.format(tmp.to_csv(index=False, sep='\t')))
 
     return 
 
 #-----------------------------------------------------------------------------
-def analyze_ctd(fName, plot=False):
+def analyze_ctd(fName, plot=True, verbose=True):
 
     # Read CTD original data
     df, metadata = read_ctd(fName)
@@ -126,13 +131,20 @@ def analyze_ctd(fName, plot=False):
 
     df = calculate_ctd(df)
     
-    output_throws(df, metadata)
+    output_throws(df, metadata, verbose=verbose)
     
     if plot:
         fig0, fig1 = plot_ctd(df)
         suffix = fName.split(".txt")[0].split("/")[-1]
-        fig0.savefig("Salinidad_{}.png".format(suffix))
-        fig1.savefig("Densidad_{}.png".format(suffix))
+        if verbose:
+            sal_fig = os.path.join(Current_Path, "Salinidad_{}.png".format(suffix))
+            den_fig = os.path.join(Current_Path, "Densidad_{}.png".format(suffix))
+            print("{}/{} created.".format(plot_dir,sal_fig))
+            print("{}/{} created.".format(plot_dir,den_fig))
+        fig0.savefig(sal_fig)
+        fig1.savefig(den_fig)
+        fig0.show()
+        fig1.show()
         return df, fig0, fig1
     else:
         return df
@@ -175,13 +187,25 @@ def plot_ctd(df):
 #-----------------------------------------------------------------------------
 if __name__ == "__main__":
     
-    # Build layout
+    # Fix temp paths problem
+    if getattr(sys, 'frozen', False):
+        Current_Path = os.path.dirname(sys.executable)
+    else:
+        Current_Path = str(os.path.dirname(__file__))
 
+    data_dir = os.path.join(Current_Path, './Datos_procesados')
+    plot_dir = os.path.join(Current_Path, './Imagenes')
+    for d in [data_dir, plot_dif]:
+        if not os.path.exists(d):
+            os.makedirs(d)
+    # path = os.path.join(Current_Path, 'example_data')
+    
+    # Build layout
     layout = [[sg.T("")],
               [sg.Text("Choose file to analyze: "), 
                sg.Input(),
                sg.FileBrowse(key="-IN-")
-              ],[sg.Button("Submit")]
+              ],[sg.Button("Submit"),sg.Button("Exit"),]
              ]
 
     # Building Window
@@ -193,5 +217,6 @@ if __name__ == "__main__":
             break
         elif event == "Submit":
             print("Analyzing {}".format(values["-IN-"]))
-    
-        df0, metadata = read_ctd(values["-IN-"])
+            
+        df0 = analyze_ctd(values["-IN-"], plot=True)
+        
